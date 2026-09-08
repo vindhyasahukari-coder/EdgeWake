@@ -147,7 +147,6 @@ if not st.session_state.logged_in:
             st.markdown("""
                 <div class="badges-container">
                     <span>🛡️ Edge Verified</span>
-                    <span>✅ ISO 27001</span>
                     <span>⚡ Low Latency</span>
                 </div>
             """, unsafe_allow_html=True)
@@ -159,7 +158,7 @@ if not st.session_state.logged_in:
                 else:
                     st.error("Invalid credentials. Use demo / demo123")
                     
-    st.markdown("<div class='footer-text'>Edge Verified | Hardware Authorization | IEEE Standard | NIST SP 800-88</div>", unsafe_allow_html=True)
+    st.markdown("<div class='footer-text'>Edge Verified | Hardware Authorization</div>", unsafe_allow_html=True)
     st.stop()
 
 
