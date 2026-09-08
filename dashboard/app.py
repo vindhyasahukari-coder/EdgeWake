@@ -38,19 +38,146 @@ def load_data():
     except Exception as e:
         return pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
 
-# --- Dynamic CSS Theme ---
+# --- Login Screen ---
+if not st.session_state.logged_in:
+    st.markdown("""
+    <style>
+        .stApp {
+            background-color: #008A3D; /* Green background */
+        }
+        /* Hide sidebar toggle on login page */
+        [data-testid="collapsedControl"] {
+            display: none;
+        }
+        /* Style the main title */
+        .title-container {
+            text-align: center;
+            margin-top: 3vh;
+            margin-bottom: 2rem;
+        }
+        .title-container h1 {
+            color: white !important;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.2rem;
+            letter-spacing: 2px;
+        }
+        .title-container p {
+            color: white !important;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        /* Style the form card */
+        [data-testid="stForm"] {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 35px 30px 20px 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: none;
+        }
+        /* Style the input labels and text */
+        [data-testid="stForm"] label, [data-testid="stForm"] p {
+            color: #333333 !important;
+            font-weight: 600;
+        }
+        /* Style text inputs */
+        .stTextInput input {
+            background-color: #F8F9FA;
+            border-radius: 8px;
+            border: 1px solid #E9ECEF;
+            color: #000 !important;
+        }
+        /* Style submit button */
+        .stButton button {
+            background-color: #008A3D !important;
+            color: white !important;
+            border-radius: 8px !important;
+            width: 100% !important;
+            font-weight: bold !important;
+            border: none !important;
+            padding: 0.5rem 1rem !important;
+            margin-top: 10px;
+        }
+        .stButton button:hover {
+            background-color: #006b2f !important;
+        }
+        /* Badges inside card */
+        .badges-container {
+            text-align: center;
+            margin-top: 25px;
+            margin-bottom: 5px;
+        }
+        .badges-container span {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0 5px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        /* Footer text outside card */
+        .footer-text {
+            color: white !important;
+            text-align: center;
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 20px;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+        <div class="title-container">
+            <h1>EDGEWAKE</h1>
+            <p>Zero-Latency TinyML Keyword Spotting & Telemetry</p>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns([1, 1.2, 1])
+    with col2:
+        with st.form("login_form"):
+            st.markdown("<p style='text-align: center; color: #6c757d !important; font-size: 0.9rem; margin-top: -15px;'>Demo Credentials -> Username: <b>demo</b> | Password: <b>demo123</b></p>", unsafe_allow_html=True)
+            
+            user = st.text_input("Username", placeholder="Enter your username")
+            pwd = st.text_input("Password", type="password", placeholder="Enter your password")
+            submitted = st.form_submit_button("🔒 Secure Login", use_container_width=True)
+            
+            st.markdown("""
+                <div class="badges-container">
+                    <span>🛡️ Edge Verified</span>
+                    <span>✅ ISO 27001</span>
+                    <span>⚡ Low Latency</span>
+                </div>
+            """, unsafe_allow_html=True)
+            
+            if submitted:
+                if user == "demo" and pwd == "demo123":
+                    st.session_state.logged_in = True
+                    st.rerun()
+                else:
+                    st.error("Invalid credentials. Use demo / demo123")
+                    
+    st.markdown("<div class='footer-text'>Edge Verified | Hardware Authorization | IEEE Standard | NIST SP 800-88</div>", unsafe_allow_html=True)
+    st.stop()
+
+
+# --- Dynamic CSS Theme for Main Dashboard ---
 if st.session_state.theme == "Dark":
     bg_color = "#0E1117"
     card_bg = "#1A1C23"
     text_color = "#FFFFFF"
     sub_text = "#A0AEC0"
     border = "#2D3748"
+    accent = "#3182CE"
 else:
     bg_color = "#F7FAFC"
     card_bg = "#FFFFFF"
     text_color = "#1A202C"
     sub_text = "#718096"
     border = "#E2E8F0"
+    accent = "#3182CE"
 
 st.markdown(f"""
 <style>
@@ -58,6 +185,7 @@ st.markdown(f"""
         background-color: {bg_color};
     }}
     
+    /* Target Markdown text explicitly */
     .stMarkdown, .stMarkdown p {{
         color: {text_color} !important;
     }}
@@ -83,45 +211,8 @@ st.markdown(f"""
     div[data-testid="metric-container"] div {{
         color: {text_color} !important;
     }}
-
-    .login-container {{
-        background-color: {card_bg};
-        border: 1px solid {border};
-        padding: 3rem;
-        border-radius: 12px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        margin-top: 5vh;
-        margin-bottom: 2rem;
-    }}
 </style>
 """, unsafe_allow_html=True)
-
-
-# --- Login Screen ---
-if not st.session_state.logged_in:
-    col1, col2, col3 = st.columns([1, 1.2, 1])
-    with col2:
-        st.markdown(f"""
-            <div class="login-container">
-                <h1 style="font-size: 2.5rem; margin-bottom: 0;">🌐 EdgeWake Portal</h1>
-                <p style="color: {sub_text} !important; font-size: 1.1rem; margin-top: 5px;">Enterprise Hardware Telemetry</p>
-            </div>
-        """, unsafe_allow_html=True)
-        
-        with st.form("login_form"):
-            st.markdown(f"<p style='color: {text_color} !important; font-weight: 600;'>Authentication Required</p>", unsafe_allow_html=True)
-            user = st.text_input("Username", placeholder="admin")
-            pwd = st.text_input("Password", type="password", placeholder="admin")
-            submitted = st.form_submit_button("Secure Login", use_container_width=True)
-            
-            if submitted:
-                if user == "admin" and pwd == "admin":
-                    st.session_state.logged_in = True
-                    st.rerun()
-                else:
-                    st.error("Invalid credentials. Use admin / admin")
-    st.stop()
 
 
 # --- Main Dashboard ---
