@@ -43,7 +43,7 @@ if not st.session_state.logged_in:
     st.markdown("""
     <style>
         .stApp {
-            background-color: #008A3D; /* Green background */
+            background-color: #0F172A; /* Dark Slate Blue background */
         }
         /* Hide sidebar toggle on login page */
         [data-testid="collapsedControl"] {
@@ -89,7 +89,7 @@ if not st.session_state.logged_in:
         }
         /* Style submit button */
         .stButton button {
-            background-color: #008A3D !important;
+            background-color: #2563EB !important;
             color: white !important;
             border-radius: 8px !important;
             width: 100% !important;
@@ -99,7 +99,7 @@ if not st.session_state.logged_in:
             margin-top: 10px;
         }
         .stButton button:hover {
-            background-color: #006b2f !important;
+            background-color: #1D4ED8 !important;
         }
         /* Badges inside card */
         .badges-container {
