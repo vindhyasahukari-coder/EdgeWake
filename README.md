@@ -70,7 +70,10 @@ python edge/edge_client.py
 
 ## Next Steps: Training on Your Real Voice
 
-To make the KWS model respond precisely to your voice, we trained a **multi-class model** on three custom wake words: `"SixSync"`, `"Lights"`, and `"Fan"`. 
+**Why is this training pipeline included in the repository?** 
+Many hackathon projects rely on closed-source, pre-trained commercial SDKs (like Alexa or Google Assistant). We built this entire dataset generation, training, and export pipeline from scratch to prove that **EdgeWake is 100% custom and open-source**. This architecture allows you to easily train the model to recognize *any* custom hardware command required by the user, without being locked into a corporate ecosystem.
+
+To make the KWS model respond precisely to your voice, we trained a **multi-class model** on three custom wake words: `"SixSync"`, `"Lights"`, and `"Fan"`.
 
 1. **Record the Keywords:**
    Run these commands and say each word 50+ times into your microphone (vary your tone and distance):
