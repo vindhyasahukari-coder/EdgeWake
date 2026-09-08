@@ -241,7 +241,7 @@ if st.sidebar.button("🗑️ Clear Transcript Logs", use_container_width=True):
     clear_logs()
     st.sidebar.success("Logs Cleared!")
 
-st.title("Live Hardware Telemetry")
+st.title("EdgeWake")
 st.markdown(f"<p style='color: {sub_text} !important; font-size: 1.1rem; margin-bottom: 2rem;'>Monitoring EdgeWake ESP32-S3 IoT nodes in real-time.</p>", unsafe_allow_html=True)
 
 placeholder = st.empty()
