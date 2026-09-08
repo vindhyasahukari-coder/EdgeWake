@@ -9,7 +9,7 @@ import config
 from metrics.db import get_connection
 
 class SystemMonitor:
-    def __init__(self, interval=1.0):
+    def __init__(self, interval=0.2):
         self.interval = interval
         self.is_running = False
         self.thread = None
