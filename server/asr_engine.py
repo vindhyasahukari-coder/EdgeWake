@@ -44,8 +44,11 @@ class ASREngine:
             # Convert int16 bytes to float32 numpy array normalized between -1.0 and 1.0
             audio_np = np.frombuffer(audio_data, dtype=np.int16).astype(np.float32) / 32768.0
             
-            # Pass directly to transformers pipeline
-            result = self.pipe({"raw": audio_np, "sampling_rate": framerate})
+            # Pass directly to transformers pipeline with language constraint to stop hallucinations
+            result = self.pipe(
+                {"raw": audio_np, "sampling_rate": framerate}, 
+                generate_kwargs={"language": "english", "max_new_tokens": 128}
+            )
             return result["text"].strip()
         except Exception as e:
             print(f"ASR Error: {e}")

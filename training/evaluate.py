@@ -59,6 +59,38 @@ def evaluate_model():
     plt.tight_layout()
     plt.savefig(os.path.join(config.MODELS_DIR, 'confusion_matrix.png'))
     print(f"Saved confusion matrix plot to {os.path.join(config.MODELS_DIR, 'confusion_matrix.png')}")
+    
+    # Plot Evaluation Metrics Bar Chart
+    report_dict = classification_report(y_test, y_pred, target_names=config.CLASSES, output_dict=True)
+    
+    classes = config.CLASSES
+    precision = [report_dict[c]['precision'] * 100 for c in classes]
+    recall = [report_dict[c]['recall'] * 100 for c in classes]
+    f1 = [report_dict[c]['f1-score'] * 100 for c in classes]
+    
+    x = np.arange(len(classes))
+    width = 0.25
+    
+    plt.figure(figsize=(10, 6))
+    plt.bar(x - width, precision, width, label='Precision', color='#3498db')
+    plt.bar(x, recall, width, label='Recall', color='#2ecc71')
+    plt.bar(x + width, f1, width, label='F1-Score', color='#e74c3c')
+    
+    plt.ylabel('Percentage (%)')
+    plt.title('EdgeWake Model Performance Metrics (Test Set)')
+    plt.xticks(x, classes)
+    plt.ylim(0, 110)
+    plt.legend(loc='lower right')
+    
+    # Add value labels on top of bars
+    for i in range(len(classes)):
+        plt.text(i - width, precision[i] + 1, f'{precision[i]:.1f}', ha='center', va='bottom', fontsize=9)
+        plt.text(i, recall[i] + 1, f'{recall[i]:.1f}', ha='center', va='bottom', fontsize=9)
+        plt.text(i + width, f1[i] + 1, f'{f1[i]:.1f}', ha='center', va='bottom', fontsize=9)
+        
+    plt.tight_layout()
+    plt.savefig(os.path.join(config.MODELS_DIR, 'metrics_bar_chart.png'))
+    print(f"Saved metrics bar chart to {os.path.join(config.MODELS_DIR, 'metrics_bar_chart.png')}")
 
 if __name__ == "__main__":
     evaluate_model()
