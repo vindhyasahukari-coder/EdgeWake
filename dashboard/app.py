@@ -95,6 +95,28 @@ def load_data():
 st.title("Edge-to-Cloud Voice Dashboard")
 st.markdown("<div class='subtitle'>Real-time system telemetrics for the Ultra-Lightweight Custom Keyword Spotting architecture.</div>", unsafe_allow_html=True)
 
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+if not st.session_state.logged_in:
+    st.markdown("### Secure Telemetry Login")
+    st.info("Demo Credentials -> Username: **admin** | Password: **admin**")
+    
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        with st.form("login_form"):
+            user = st.text_input("Username")
+            pwd = st.text_input("Password", type="password")
+            submitted = st.form_submit_button("Access Dashboard")
+            
+            if submitted:
+                if user == "admin" and pwd == "admin":
+                    st.session_state.logged_in = True
+                    st.rerun()
+                else:
+                    st.error("Invalid credentials. Try admin / admin")
+    st.stop()
+
 placeholder = st.empty()
 
 while True:
