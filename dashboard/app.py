@@ -160,4 +160,25 @@ while True:
         else:
             st.info("System is listening. Waiting for wake word detection.")
             
+        st.markdown("---")
+        
+        # Add Evaluation Metrics Section
+        with st.expander("📊 View Internal Evaluation Metrics (Test Dataset)"):
+            st.markdown("These metrics represent the genuine test-split validation of the quantized INT8 model.")
+            col_img1, col_img2 = st.columns(2)
+            
+            # Paths to the generated metric images
+            cm_path = os.path.join(config.MODELS_DIR, "confusion_matrix.png")
+            bar_path = os.path.join(config.MODELS_DIR, "metrics_bar_chart.png")
+            
+            if os.path.exists(bar_path):
+                col_img1.image(bar_path, caption="F1-Score, Precision, and Recall per Class", use_container_width=True)
+            else:
+                col_img1.info("Run `python training/evaluate.py` to generate the Metrics Bar Chart.")
+                
+            if os.path.exists(cm_path):
+                col_img2.image(cm_path, caption="Confusion Matrix (140 Test Samples)", use_container_width=True)
+            else:
+                col_img2.info("Run `python training/evaluate.py` to generate the Confusion Matrix.")
+            
     time.sleep(1.0)
