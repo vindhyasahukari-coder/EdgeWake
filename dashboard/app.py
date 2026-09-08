@@ -9,6 +9,20 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import config
 from metrics.db import get_connection
 
+# --- Silence Windows asyncio ConnectionResetError spam ---
+import asyncio
+try:
+    import socket
+    from asyncio.proactor_events import _ProactorBasePipeTransport
+    def silenced_call_connection_lost(self, exc):
+        try:
+            self._sock.shutdown(socket.SHUT_RDWR)
+        except Exception:
+            pass
+    _ProactorBasePipeTransport._call_connection_lost = silenced_call_connection_lost
+except Exception:
+    pass
+
 st.set_page_config(page_title="EdgeWake Portal", layout="wide", initial_sidebar_state="collapsed")
 
 # --- Session State ---
